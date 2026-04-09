@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Space Grotesk";
+    --font-body: "Figtree";
+    --font-mono: "JetBrains Mono";
+    --radius: 0.5rem;
+
+    --background: 0.98 0.008 230;
+    --foreground: 0.18 0.015 230;
+    --card: 1.0 0.004 230;
+    --card-foreground: 0.18 0.015 230;
+    --popover: 1.0 0.004 230;
+    --popover-foreground: 0.18 0.015 230;
+
+    --primary: 0.42 0.14 240;
+    --primary-foreground: 0.98 0.005 240;
+
+    --secondary: 0.95 0.01 230;
+    --secondary-foreground: 0.28 0.015 230;
+    --muted: 0.94 0.01 230;
+    --muted-foreground: 0.5 0.012 230;
+
+    --accent: 0.6 0.15 170;
+    --accent-foreground: 0.98 0.005 170;
+
+    --destructive: 0.55 0.22 25;
+    --destructive-foreground: 0.98 0.005 25;
+
+    --success: 0.6 0.16 150;
+    --success-foreground: 0.98 0.005 150;
+
+    --warning: 0.72 0.15 85;
+    --warning-foreground: 0.18 0.015 85;
+
+    --border: 0.9 0.008 230;
+    --input: 0.9 0.008 230;
+    --ring: 0.42 0.14 240;
+
+    --chart-1: 0.42 0.14 240;
+    --chart-2: 0.6 0.15 170;
+    --chart-3: 0.6 0.16 150;
+    --chart-4: 0.72 0.15 85;
+    --chart-5: 0.55 0.22 25;
+
+    --sidebar: 0.98 0.008 230;
+    --sidebar-foreground: 0.18 0.015 230;
+    --sidebar-primary: 0.42 0.14 240;
+    --sidebar-primary-foreground: 0.98 0.005 240;
+    --sidebar-accent: 0.94 0.01 230;
+    --sidebar-accent-foreground: 0.28 0.015 230;
+    --sidebar-border: 0.9 0.008 230;
+    --sidebar-ring: 0.42 0.14 240;
+  }
+
+  .dark {
+    --background: 0.145 0.014 230;
+    --foreground: 0.95 0.01 230;
+    --card: 0.18 0.014 230;
+    --card-foreground: 0.95 0.01 230;
+    --popover: 0.18 0.014 230;
+    --popover-foreground: 0.95 0.01 230;
+
+    --primary: 0.75 0.15 240;
+    --primary-foreground: 0.145 0.014 240;
+
+    --secondary: 0.22 0.02 230;
+    --secondary-foreground: 0.85 0.01 230;
+    --muted: 0.22 0.02 230;
+    --muted-foreground: 0.55 0.01 230;
+
+    --accent: 0.75 0.18 170;
+    --accent-foreground: 0.145 0.014 170;
+
+    --destructive: 0.55 0.2 25;
+    --destructive-foreground: 0.95 0.01 25;
+
+    --success: 0.65 0.18 150;
+    --success-foreground: 0.145 0.014 150;
+
+    --warning: 0.75 0.15 85;
+    --warning-foreground: 0.145 0.014 85;
+
+    --border: 0.28 0.02 230;
+    --input: 0.28 0.02 230;
+    --ring: 0.75 0.15 240;
+
+    --chart-1: 0.75 0.15 240;
+    --chart-2: 0.75 0.18 170;
+    --chart-3: 0.65 0.18 150;
+    --chart-4: 0.75 0.15 85;
+    --chart-5: 0.55 0.2 25;
+
+    --sidebar: 0.18 0.014 230;
+    --sidebar-foreground: 0.95 0.01 230;
+    --sidebar-primary: 0.75 0.15 240;
+    --sidebar-primary-foreground: 0.145 0.014 240;
+    --sidebar-accent: 0.22 0.02 230;
+    --sidebar-accent-foreground: 0.85 0.01 230;
+    --sidebar-border: 0.28 0.02 230;
+    --sidebar-ring: 0.75 0.15 240;
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/SpaceGrotesk.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Figtree";
+  src: url("/assets/fonts/Figtree.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono.woff2") format("woff2");
+  font-display: swap;
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .status-pending {
+    @apply bg-warning/10 text-warning border border-warning/30 rounded-md px-2.5 py-1 text-xs font-medium;
+  }
+
+  .status-uploaded {
+    @apply bg-primary/10 text-primary border border-primary/30 rounded-md px-2.5 py-1 text-xs font-medium;
+  }
+
+  .status-sent {
+    @apply bg-accent/10 text-accent border border-accent/30 rounded-md px-2.5 py-1 text-xs font-medium;
+  }
+
+  .status-viewed {
+    @apply bg-success/10 text-success border border-success/30 rounded-md px-2.5 py-1 text-xs font-medium;
+  }
+
+  .card-elevated {
+    @apply bg-card border border-border rounded-lg shadow-sm hover:shadow-md transition-smooth;
+  }
+
+  .input-field {
+    @apply bg-input border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder-muted-foreground transition-smooth focus:outline-none focus:ring-2 focus:ring-primary/50;
+  }
+}

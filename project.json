@@ -1,0 +1,24 @@
+{
+  "overview": "A responsive diagnostic center platform where patients access their test reports and book appointments with doctors, while admins manage all patient records, upload diagnostic reports, and track report delivery status.",
+  "features": [
+    "Patient and admin authentication with role-based access",
+    "Admin patient record management with search and filter",
+    "Diagnostic report upload and assignment using secure cloud storage",
+    "Report status tracking (pending, uploaded, sent, viewed)",
+    "In-app PDF report viewing and downloading for patients",
+    "Doctor profile management with availability scheduling",
+    "Appointment booking system with specialization search",
+    "Patient dashboard with quick access to reports and appointments",
+    "Fully responsive layout for mobile, tablet, and desktop"
+  ],
+  "category": "healthcare",
+  "tags": [
+    "diagnostic",
+    "healthcare",
+    "patient-management",
+    "reports",
+    "appointments",
+    "admin-dashboard"
+  ],
+  "last_updated": "2026-04-09T09:08:26.476Z"
+}

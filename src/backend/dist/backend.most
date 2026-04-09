@@ -1,0 +1,120 @@
+// Version: 1.0.0
+type AppointmentId__729317175 = Nat;
+type AppointmentStatus__949193971 = {#cancelled; #confirmed; #pending};
+type Appointment__77617247 =
+  {
+    bookedAt : Timestamp__301639476;
+    doctorId : DoctorId__139287351;
+    id : AppointmentId__729317175;
+    notes : ?Text;
+    patientId : UserId__158757552;
+    slotId : SlotId__809673056;
+    status : AppointmentStatus__949193971
+  };
+type AvailabilitySlot__72145784 =
+  {
+    date : Text;
+    doctorId : DoctorId__139287351;
+    endTime : Text;
+    id : SlotId__809673056;
+    isBooked : Bool;
+    startTime : Text
+  };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type DiagnosticReport__753256794 =
+  {
+    adminNotes : ?Text;
+    fileBlob : ?ExternalBlob__246066408;
+    id : ReportId__327116113;
+    labNotes : ?Text;
+    patientId : UserId__158757552;
+    reportType : ReportType__121741004;
+    status : ReportStatus__445058036;
+    thumbnailBlob : ?ExternalBlob__246066408;
+    title : Text;
+    uploadedAt : Timestamp__301639476
+  };
+type DoctorId__139287351 = Nat;
+type Doctor__468753071 =
+  {
+    bio : ?Text;
+    clinicAddress : Text;
+    clinicName : Text;
+    email : ?Text;
+    id : DoctorId__139287351;
+    name : Text;
+    phone : Text;
+    specialization : Text
+  };
+type ExternalBlob__246066408 = Blob;
+type Gender__352677779 = {#female; #male; #other};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type PatientProfile__159402211 =
+  {
+    address : ?Text;
+    createdAt : Timestamp__301639476;
+    dateOfBirth : ?Text;
+    email : ?Text;
+    gender : ?Gender__352677779;
+    id : UserId__158757552;
+    name : Text;
+    phone : Text
+  };
+type ReportId__327116113 = Nat;
+type ReportStatus__445058036 = {#pending; #sent; #uploaded; #viewed};
+type ReportType__121741004 =
+  {#bloodTest; #ctScan; #mri; #other : Text; #ultrasound; #xRay};
+type SlotId__809673056 = Nat;
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Principal;
+type UserRole__1054455867 = {#admin; #guest; #user};
+actor {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__605269027<Principal, UserRole__1054455867>
+    };
+  stable appointmentCounter :
+    {var nextAppointmentId : AppointmentId__729317175};
+  stable appointments :
+    {
+      var root :
+        Node__46230540<AppointmentId__729317175, Appointment__77617247>;
+      var size : Nat__490723111
+    };
+  stable doctorCounter : {var nextDoctorId : DoctorId__139287351};
+  stable doctors :
+    {
+      var root : Node__46230540<DoctorId__139287351, Doctor__468753071>;
+      var size : Nat__490723111
+    };
+  stable patientProfiles :
+    {
+      var root : Node__46230540<UserId__158757552, PatientProfile__159402211>;
+      var size : Nat__490723111
+    };
+  stable reportCounter : {var nextId : ReportId__327116113};
+  stable reports :
+    {
+      var root :
+        Node__46230540<ReportId__327116113, DiagnosticReport__753256794>;
+      var size : Nat__490723111
+    };
+  stable slotCounter : {var nextSlotId : SlotId__809673056};
+  stable slots :
+    {
+      var root : Node__46230540<SlotId__809673056, AvailabilitySlot__72145784>;
+      var size : Nat__490723111
+    }
+};

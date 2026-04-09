@@ -1,0 +1,204 @@
+type _ImmutableObjectStorageRefillResult = 
+ record {
+   success: opt bool;
+   topped_up_amount: opt nat;
+ };
+type _ImmutableObjectStorageRefillInformation = record {
+                                                  proposed_top_up_amount:
+                                                   opt nat;};
+type _ImmutableObjectStorageCreateCertificateResult = 
+ record {
+   blob_hash: text;
+   method: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserId = principal;
+type Timestamp = int;
+type SlotInput = 
+ record {
+   date: text;
+   doctorId: DoctorId;
+   endTime: text;
+   startTime: text;
+ };
+type SlotId = nat;
+type ReportUpdate = 
+ record {
+   adminNotes: opt text;
+   fileBlob: opt ExternalBlob;
+   labNotes: opt text;
+   reportType: opt ReportType;
+   status: opt ReportStatus;
+   thumbnailBlob: opt ExternalBlob;
+   title: opt text;
+ };
+type ReportType = 
+ variant {
+   bloodTest;
+   ctScan;
+   mri;
+   other: text;
+   ultrasound;
+   xRay;
+ };
+type ReportStatus = 
+ variant {
+   pending;
+   sent;
+   uploaded;
+   viewed;
+ };
+type ReportInput = 
+ record {
+   adminNotes: opt text;
+   fileBlob: opt ExternalBlob;
+   labNotes: opt text;
+   patientId: UserId;
+   reportType: ReportType;
+   thumbnailBlob: opt ExternalBlob;
+   title: text;
+ };
+type ReportId = nat;
+type PatientProfileInput = 
+ record {
+   address: opt text;
+   dateOfBirth: opt text;
+   email: opt text;
+   gender: opt Gender;
+   name: text;
+   phone: text;
+ };
+type PatientProfile = 
+ record {
+   address: opt text;
+   createdAt: Timestamp;
+   dateOfBirth: opt text;
+   email: opt text;
+   gender: opt Gender;
+   id: UserId;
+   name: text;
+   phone: text;
+ };
+type Gender = 
+ variant {
+   female;
+   male;
+   other;
+ };
+type ExternalBlob = blob;
+type DoctorInput = 
+ record {
+   bio: opt text;
+   clinicAddress: text;
+   clinicName: text;
+   email: opt text;
+   name: text;
+   phone: text;
+   specialization: text;
+ };
+type DoctorId = nat;
+type Doctor = 
+ record {
+   bio: opt text;
+   clinicAddress: text;
+   clinicName: text;
+   email: opt text;
+   id: DoctorId;
+   name: text;
+   phone: text;
+   specialization: text;
+ };
+type DiagnosticReport = 
+ record {
+   adminNotes: opt text;
+   fileBlob: opt ExternalBlob;
+   id: ReportId;
+   labNotes: opt text;
+   patientId: UserId;
+   reportType: ReportType;
+   status: ReportStatus;
+   thumbnailBlob: opt ExternalBlob;
+   title: text;
+   uploadedAt: Timestamp;
+ };
+type AvailabilitySlot = 
+ record {
+   date: text;
+   doctorId: DoctorId;
+   endTime: text;
+   id: SlotId;
+   isBooked: bool;
+   startTime: text;
+ };
+type AppointmentStatus = 
+ variant {
+   cancelled;
+   confirmed;
+   pending;
+ };
+type AppointmentInput = 
+ record {
+   doctorId: DoctorId;
+   notes: opt text;
+   slotId: SlotId;
+ };
+type AppointmentId = nat;
+type Appointment = 
+ record {
+   bookedAt: Timestamp;
+   doctorId: DoctorId;
+   id: AppointmentId;
+   notes: opt text;
+   patientId: UserId;
+   slotId: SlotId;
+   status: AppointmentStatus;
+ };
+service : {
+  _immutableObjectStorageBlobsAreLive: (hashes: vec blob) -> (vec bool) query;
+  _immutableObjectStorageBlobsToDelete: () -> (vec blob) query;
+  _immutableObjectStorageConfirmBlobDeletion: (blobs: vec blob) -> ();
+  _immutableObjectStorageCreateCertificate: (blobHash: text) ->
+   (_ImmutableObjectStorageCreateCertificateResult);
+  _immutableObjectStorageRefillCashier: (refillInformation:
+   opt _ImmutableObjectStorageRefillInformation) ->
+   (_ImmutableObjectStorageRefillResult);
+  _immutableObjectStorageUpdateGatewayPrincipals: () -> ();
+  _initializeAccessControl: () -> ();
+  addDoctorSlot: (input: SlotInput) -> (AvailabilitySlot);
+  adminCancelAppointment: (id: AppointmentId) -> (opt Appointment);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  bookAppointment: (input: AppointmentInput) -> (Appointment);
+  cancelMyAppointment: (id: AppointmentId) -> (opt Appointment);
+  confirmAppointment: (id: AppointmentId) -> (opt Appointment);
+  createDoctor: (input: DoctorInput) -> (Doctor);
+  createReport: (input: ReportInput) -> (DiagnosticReport);
+  deleteDoctor: (id: DoctorId) -> ();
+  deletePatient: (patientId: UserId) -> ();
+  deleteReport: (id: ReportId) -> ();
+  getCallerUserRole: () -> (UserRole) query;
+  getDoctor: (id: DoctorId) -> (opt Doctor) query;
+  getDoctorSlots: (doctorId: DoctorId) -> (vec AvailabilitySlot) query;
+  getMyProfile: () -> (opt PatientProfile) query;
+  getPatientProfile: (patientId: UserId) -> (opt PatientProfile) query;
+  getReport: (id: ReportId) -> (opt DiagnosticReport) query;
+  isCallerAdmin: () -> (bool) query;
+  listAllAppointments: () -> (vec Appointment) query;
+  listAllPatients: () -> (vec PatientProfile) query;
+  listAllReports: () -> (vec DiagnosticReport) query;
+  listDoctors: (specialization: opt text) -> (vec Doctor) query;
+  listMyAppointments: () -> (vec Appointment) query;
+  listMyReports: () -> (vec DiagnosticReport) query;
+  markReportViewed: (id: ReportId) -> (opt DiagnosticReport);
+  removeDoctorSlot: (slotId: SlotId) -> ();
+  saveMyProfile: (input: PatientProfileInput) -> (PatientProfile);
+  setReportStatus: (id: ReportId, status: ReportStatus) ->
+   (opt DiagnosticReport);
+  updateDoctor: (id: DoctorId, input: DoctorInput) -> (opt Doctor);
+  updateReport: (id: ReportId, update: ReportUpdate) ->
+   (opt DiagnosticReport);
+}
